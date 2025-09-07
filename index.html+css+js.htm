@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>King Snake DApp</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: #fff;
+    }
+    /* Banner */
+    .banner {
+      width: 100%;
+      height: 220px;
+      background: url("https://ipfs.io/ipfs/bafybeicqmkc7yespu7qgp5c3t26rhejswnxq53fbkvjrge667hwndhliry") no-repeat center;
+      background-size: cover;
+    }
+    /* Navbar */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(0,0,0,0.8);
+      display: flex;
+      align-items: center;
+      padding: 10px 20px;
+      z-index: 10;
+    }
+    .menu-btn {
+      font-size: 26px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: #fff;
+    }
+    .menu {
+      position: fixed;
+      top: 0;
+      left: -250px;
+      width: 250px;
+      height: 100%;
+      background: #222;
+      padding-top: 60px;
+      transition: left 0.3s;
+    }
+    .menu.open { left: 0; }
+    .menu a {
+      display: block;
+      padding: 15px;
+      text-decoration: none;
+      color: #fff;
+      border-bottom: 1px solid #333;
+    }
+    .menu a:hover { background: #444; }
+    /* Content sections */
+    section {
+      padding: 20px;
+      display: none;
+    }
+    section.active { display: block; }
+    button {
+      padding: 10px 20px;
+      margin: 10px 0;
+      background: #3b82f6;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover { background: #2563eb; }
+    /* Language select */
+    .lang-select {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <div class="navbar">
+    <button class="menu-btn" onclick="toggleMenu()">☰</button>
+    <h2 style="margin-left: 10px;">King Snake DApp</h2>
+  </div>
+
+  <!-- Sidebar menu -->
+  <div class="menu" id="menu">
+    <a href="#" onclick="showSection('wallet')">🔑 Connect Wallet</a>
+    <a href="#" onclick="showSection('staking')">📥 Staking</a>
+    <a href="#" onclick="showSection('unstake')">📤 Unstake</a>
+    <a href="#" onclick="showSection('shop')">🛒 Shop</a>
+    <a href="#" onclick="showSection('whitepaper')">📄 Whitepaper</a>
+    <a href="#" onclick="showSection('roadmap')">🗺 Roadmap</a>
+    <a href="#" onclick="showSection('setting')">⚙️ Setting</a>
+  </div>
+
+  <!-- Banner -->
+  <div class="banner"></div>
+
+  <!-- Sections -->
+  <section id="wallet" class="active">
+    <h3>Connect Wallet</h3>
+    <button id="loginBtn">Login dengan Wombat</button>
+    <p id="userInfo"></p>
+  </section>
+
+  <section id="staking">
+    <h3>Staking</h3>
+    <button onclick="alert('Staking function coming soon')">Stake Now</button>
+  </section>
+
+  <section id="unstake">
+    <h3>Unstake</h3>
+    <button onclick="alert('Unstake function coming soon')">Unstake Now</button>
+  </section>
+
+  <section id="shop">
+    <h3>Shop</h3>
+    <p>Coming soon: beli NFT King Snake Pack di sini.</p>
+  </section>
+
+  <section id="whitepaper">
+    <h3>Whitepaper</h3>
+    <p><a href="#" target="_blank">Download Whitepaper</a></p>
+  </section>
+
+  <section id="roadmap">
+    <h3>Roadmap</h3>
+    <ul>
+      <li>Q1: Launch NFT</li>
+      <li>Q2: Staking system</li>
+      <li>Q3: Game integration</li>
+      <li>Q4: Marketplace</li>
+    </ul>
+  </section>
+
+  <section id="setting">
+    <h3>Setting</h3>
+    <div class="lang-select">
+      <label>Pilih Bahasa:</label>
+      <select id="language" onchange="changeLang()">
+        <option value="id">Indonesia</option>
+        <option value="en">English</option>
+      </select>
+    </div>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/@waxio/waxjs/dist/waxjs.js"></script>
+  <script>
+    // Toggle menu
+    function toggleMenu() {
+      document.getElementById("menu").classList.toggle("open");
+    }
+
+    // Show section
+    function showSection(id) {
+      const sections = document.querySelectorAll("section");
+      sections.forEach(s => s.classList.remove("active"));
+      document.getElementById(id).classList.add("active");
+      toggleMenu();
+    }
+
+    // Wallet login
+    const wax = new waxjs.WaxJS({ rpcEndpoint: "https://wax.greymass.com" });
+    let userAccount = null;
+
+    document.getElementById("loginBtn").addEventListener("click", async () => {
+      try {
+        userAccount = await wax.login();
+        document.getElementById("userInfo").innerText = "Login sebagai: " + userAccount;
+      } catch (e) {
+        console.error("Login gagal", e);
+      }
+    });
+
+    // Language switch
+    function changeLang() {
+      const lang = document.getElementById("language").value;
+      if (lang === "en") {
+        alert("Language changed to English");
+      } else {
+        alert("Bahasa diubah ke Indonesia");
+      }
+    }
+  </script>
+</body>
+</html>
